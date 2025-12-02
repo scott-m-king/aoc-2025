@@ -8,3 +8,4 @@ Run all Advent days tests:
 ```bash
 ./gradlew build test
 ````
+# aoc-2025
