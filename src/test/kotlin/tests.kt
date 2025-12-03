@@ -1,19 +1,20 @@
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 object `Day 01` {
     @Test
-    fun `★`() = day01.Day(inputScanner(1)).starOne()
+    fun `★`() = assertEquals(1145, day01.Day(inputScanner(1)).starOne())
 
     @Test
-    fun `★★`() = day01.Day(inputScanner(1)).starTwo()
+    fun `★★`() = assertEquals(6561, day01.Day(inputScanner(1)).starTwo())
 }
 
 object `Day 02` {
     @Test
-    fun `★`() = day02.Day(inputScanner(2)).starOne()
+    fun `★`() = assertEquals(24747430309L, day02.Day(inputScanner(2)).starOne())
 
     @Test
-    fun `★★`() = day02.Day(inputScanner(2)).starTwo()
+    fun `★★`() = assertEquals(30962646823L,day02.Day(inputScanner(2)).starTwo())
 }
 
 object `Day 03` {

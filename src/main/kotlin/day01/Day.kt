@@ -16,7 +16,7 @@ class Day(val input: List<String>) {
         input.map { Pair(it[0], it.substring(1, it.length).toInt()) }
             .fold(LockState(50, 0)) { currState, (dir, turns) ->
                 rotate(currState, turns, dir)
-            }.password.run(::println)
+            }.password
 
     fun starOne() = solve(::rotate1)
 

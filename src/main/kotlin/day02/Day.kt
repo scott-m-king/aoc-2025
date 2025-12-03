@@ -16,7 +16,7 @@ class Day(val input: List<String>) {
                 else -> acc
             }
         }
-    }.run(::println)
+    }
 
     fun starTwo() = solve { num, acc ->
         num.toString().run {
@@ -24,5 +24,5 @@ class Day(val input: List<String>) {
                 .any { length.mod(it) == 0 && chunked(it).toSet().size == 1 }
                 .let { if (it) acc + num else acc }
         }
-    }.run(::println)
+    }
 }
