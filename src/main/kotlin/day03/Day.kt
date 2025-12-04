@@ -8,11 +8,13 @@ class Day(val input: List<String>) {
         }.let { (index, f) -> "$f${line.subList(index + 1, line.size).max()}".toInt() }
     }
 
-    fun starTwo() {
-        val lines = input.map { it.mapIndexed { i, c -> "$c".toInt() } }
+    fun starTwo(): Long = input.map { it.map { c -> "$c".toInt() } }.sumOf {
+        helper(it, "", 0, 0)
+    }
 
-        for (line in lines) {
-            TODO()
-        }
+    tailrec fun helper(line: List<Int>, curr: String, idx: Int, offset: Int): Long {
+        if (idx == 12) return curr.toLong()
+        val max = line.slice(offset..(line.size - 12 + idx)).withIndex().maxBy { it.value }
+        return helper(line, "$curr${max.value}", idx + 1, offset + max.index + 1)
     }
 }
