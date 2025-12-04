@@ -1,7 +1,5 @@
 package day03
 
-import java.util.Scanner
-
 class Day(val input: List<String>) {
     fun starOne(): Int = input.map { it.map { c -> "$c".toInt() } }.sumOf { line ->
         line.take(line.size - 1).foldIndexed(0 to line[0]) { idx, acc, curr ->
@@ -11,6 +9,10 @@ class Day(val input: List<String>) {
     }
 
     fun starTwo() {
-        TODO()
+        val lines = input.map { it.mapIndexed { i, c -> "$c".toInt() } }
+
+        for (line in lines) {
+            TODO()
+        }
     }
 }
