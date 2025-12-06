@@ -14,22 +14,21 @@ class Day(val input: List<String>) {
         .let { it to it.take(it.size - 1).map { nums -> nums.map { num -> num.toLong() } } }
         .let { (raw, nums) -> nums to raw.last().map { getOperator(it[0]) } }
         .let { (nums, ops) ->
-            (0..<nums[0].size).sumOf { i ->
-                val transposed = nums.map { num -> num[i] }
-                transposed.drop(1).fold(transposed[0]) { acc, curr -> ops[i](acc, curr) }
+            (0..<nums[0].size).sumOf { col ->
+                nums.map { num -> num[col] }.let { transposed ->
+                    transposed.drop(1).fold(transposed[0]) { acc, curr -> ops[col](acc, curr) }
+                }
             }
         }
 
-    fun starTwo(): Long = input.map { it.toCharArray().toList() }.let { grid ->
+    fun starTwo(): Long = input.map { it.toCharArray() }.let { grid ->
         (0..<grid.maxBy { it.size }.size)
             .map { i -> grid.map { it[i] } }
             .fold(Pod(listOf(), listOf())) { (result, tmp), curr ->
-                when {
-                    curr.all { it.isWhitespace() } -> Pod(result + listOf(tmp), listOf())
-                    else -> Pod(result, tmp + listOf(curr.toList()))
-                }
+                if (curr.all { it.isWhitespace() }) Pod(result + listOf(tmp), listOf())
+                else Pod(result, tmp + listOf(curr.toList()))
             }
-            .let { (lst, tmp) -> lst + listOf(tmp) }
+            .let { (result, tmp) -> result + listOf(tmp) }
             .sumOf { line ->
                 line.map {
                     it.dropLast(1).filter { c -> !c.isWhitespace() }.joinToString("").toLong()
