@@ -10,15 +10,15 @@ class Day(val input: List<String>) {
         else -> { a, b -> a + b }
     }
 
-    fun starOne(): Long {
-        val start = input.map { it.split(" ").filter { text -> text.isNotEmpty() } }
-        val nums = start.take(start.size - 1).map { nums -> nums.map { it.toLong() } }
-        val ops = start.last().map { getOperator(it[0]) }
-        return (0..<nums[0].size).sumOf { i ->
-            val transposed = nums.map { num -> num[i] }
-            transposed.drop(1).fold(transposed[0]) { acc, curr -> ops[i](acc, curr) }
+    fun starOne(): Long = input.map { it.split(" ").filter { text -> text.isNotEmpty() } }
+        .let { it to it.take(it.size - 1).map { nums -> nums.map { num -> num.toLong() } } }
+        .let { (raw, nums) -> nums to raw.last().map { getOperator(it[0]) } }
+        .let { (nums, ops) ->
+            (0..<nums[0].size).sumOf { i ->
+                val transposed = nums.map { num -> num[i] }
+                transposed.drop(1).fold(transposed[0]) { acc, curr -> ops[i](acc, curr) }
+            }
         }
-    }
 
     fun starTwo(): Long = input.map { it.toCharArray().toList() }.let { grid ->
         (0..<grid.maxBy { it.size }.size)
