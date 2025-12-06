@@ -5,7 +5,7 @@ fun inputScanner(day: Int) = ClassLoader
     .let { requireNotNull(it) { "Cannot read from $it" } }
     .bufferedReader()
     .readLines()
-    .map { it.trim() }
+//    .map { it.trim() }
 
 
 fun inputScannerString(day: Int) = ClassLoader
