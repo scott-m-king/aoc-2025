@@ -9,10 +9,10 @@ data class Grid(val rows: Int, val cols: Int, val grid: List<String>) {
     fun toPositions(): List<Pair<Int, Int>> = grid
         .flatMapIndexed { row, _ -> grid[row].mapIndexed { col, _ -> row to col } }
 
-    fun adjacent8(row: Int, col: Int): List<Char> =
+    fun adjacent8(row: Int, col: Int): List<Pair<Int, Int>> =
         (-1..1).flatMap { r -> (-1..1).map { c -> row + r to col + c } }
             .filter { it != row to col }
-            .mapNotNull { get(it) }
+            .map { it }
 
     fun adjacent8(pos: Pair<Int, Int>) = adjacent8(pos.first, pos.second)
 }
