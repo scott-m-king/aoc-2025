@@ -11,10 +11,8 @@ class Day(val input: List<String>) {
 
     fun starOne() = solve { num, acc ->
         num.toString().run {
-            when {
-                length.mod(2) == 0 && take(length / 2) == substring(length / 2, length) -> acc + num
-                else -> acc
-            }
+            if (length.mod(2) == 0 && take(length / 2) == substring(length / 2, length)) acc + num
+            else acc
         }
     }
 

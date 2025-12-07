@@ -14,7 +14,7 @@ class Day(val input: List<String>) {
         return helper(grid, removed.union(free.toSet()))
     }
 
-    fun Grid<Char>.getFree(removed: Set<Pair<Int, Int>> = setOf()) = toPositions()
+    fun Grid<Char>.getFree(removed: Set<Pair<Int, Int>> = setOf()) = positions
         .filter { pos ->
             !removed.contains(pos) && get(pos) == '@' && (adjacent8(pos).count { get(it) == '@' && !removed.contains(it) } < 4)
         }

@@ -7,8 +7,8 @@ class Day(val input: List<String>) {
     data class LockState(val pos: Int, val password: Int)
 
     fun LockState.getNextPos(dir: Char): Int = when (dir) {
-        'L' -> (pos - 1) % 100
-        'R' -> (pos + 1) % 100
+        'L' -> (pos - 1).mod(100)
+        'R' -> (pos + 1).mod(100)
         else -> throw IllegalArgumentException("Invalid dir $dir")
     }
 
