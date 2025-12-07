@@ -10,7 +10,7 @@ class Day(val input: List<String>) {
     fun starOne(): Int = parseInput().let { (grid, startCol) ->
         helper(grid, 1, 0, setOf(startCol))
     }
-    
+
     fun starTwo(): Long = parseInput().let { (grid, startCol) ->
         helper2(grid, 1, startCol)
     }
@@ -31,21 +31,16 @@ class Day(val input: List<String>) {
         return helper(grid, row + 1, count, nextBeams)
     }
 
-    fun helper2(grid: Grid<Char>, row: Int, col: Int, cache: MutableMap<Pair<Int, Int>, Long> = mutableMapOf()): Long {
-        if (row == grid.cells.size - 1) {
-            return 1
-        }
+    fun helper2(grid: Grid<Char>, row: Int, col: Int, cache: MutableMap<Pair<Int, Int>, Long> = mutableMapOf()): Long =
+        when {
+            row == grid.cells.size - 1 -> 1
+            row to col in cache -> cache[(row to col)] ?: throw IllegalStateException("bad")
+            grid[row, col] == '^' -> {
+                val left = helper2(grid, row + 1, col + 1, cache)
+                val right = helper2(grid, row + 1, col - 1, cache)
+                (left + right).apply { cache[(row to col)] = this }
+            }
 
-        if ((row to col) in cache) {
-            return cache[(row to col)] ?: throw IllegalStateException("bad")
+            else -> helper2(grid, row + 1, col, cache).apply { cache[(row to col)] = this }
         }
-
-        if (grid[row, col] == '^') {
-            val left = helper2(grid, row + 1, col + 1, cache)
-            val right = helper2(grid, row + 1, col - 1, cache)
-            return (left + right).apply { cache[(row to col)] = this }
-        }
-
-        return helper2(grid, row + 1, col, cache).apply { cache[(row to col)] = this }
-    }
 }
