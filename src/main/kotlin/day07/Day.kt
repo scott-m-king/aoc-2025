@@ -4,10 +4,15 @@ import utils.Grid
 import utils.toGrid
 
 class Day(val input: List<String>) {
-    fun starOne(): Int = input.toGrid().let { grid ->
-        (grid to grid.positions.find { grid[it] == 'S' })
-    }.let { (grid, start) ->
-        helper(grid, 1, 0, setOf(start?.second ?: 0))
+    fun parseInput(): Pair<Grid<Char>, Int> =
+        input.toGrid().let { grid -> (grid to (grid.positions.find { grid[it] == 'S' }?.second ?: 0)) }
+
+    fun starOne(): Int = parseInput().let { (grid, startCol) ->
+        helper(grid, 1, 0, setOf(startCol))
+    }
+    
+    fun starTwo(): Long = parseInput().let { (grid, startCol) ->
+        helper2(grid, 1, startCol)
     }
 
     tailrec fun helper(grid: Grid<Char>, row: Int, count: Int, beamCols: Set<Int>): Int {
@@ -26,12 +31,6 @@ class Day(val input: List<String>) {
         return helper(grid, row + 1, count, nextBeams)
     }
 
-    fun starTwo(): Long {
-        val grid = input.toGrid()
-        val (_, startCol) = grid.positions.find { grid[it] == 'S' } ?: (0 to 0)
-        return helper2(grid, 1, startCol)
-    }
-
     fun helper2(grid: Grid<Char>, row: Int, col: Int, cache: MutableMap<Pair<Int, Int>, Long> = mutableMapOf()): Long {
         if (row == grid.cells.size - 1) {
             return 1
@@ -40,7 +39,7 @@ class Day(val input: List<String>) {
         if ((row to col) in cache) {
             return cache[(row to col)] ?: throw IllegalStateException("bad")
         }
-       
+
         if (grid[row, col] == '^') {
             val left = helper2(grid, row + 1, col + 1, cache)
             val right = helper2(grid, row + 1, col - 1, cache)
